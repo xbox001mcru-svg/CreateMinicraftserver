@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TimurHost — Minecraft Hosting</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101522;color:white;font-family:Arial,sans-serif}
+header{padding:22px;background:#19243a;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold;color:#60e6a0}
+main{max-width:850px;margin:auto;padding:20px}
+.card{background:#1c2940;padding:20px;border-radius:15px;margin:18px 0}
+h1{font-size:30px}
+p{color:#b9c6d9}
+select,button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:9px;font-size:16px}
+select{background:#101a2b;color:white}
+button{background:#32bd7c;color:white;font-weight:bold;cursor:pointer}
+button:active{opacity:.8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.plugin{background:#263650;padding:14px;border-radius:10px}
+footer{text-align:center;padding:25px;color:#8996aa}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🌐 TimurHost</div>
+<div>Free Hosting</div>
+</header>
+<main>
+<h1>Создай свой Minecraft-сервер!</h1>
+<p>Бесплатный хостинг Minecraft Bedrock</p>
+
+<div class="card">
+<h2>🚀 Создать сервер</h2>
+<label>Версия Minecraft</label>
+<select id="version">
+<option>26.33</option>
+<option>26.40</option>
+<option>26.60</option>
+</select>
+<label>Тип сервера</label>
+<select id="engine">
+<option>PocketMine-MP</option>
+<option>Bedrock Dedicated Server</option>
+</select>
+<button onclick="alert('Панель создания сервера пока в разработке!')">Создать сервер</button>
+</div>
+
+<div class="card">
+<h2>🧩 Плагины</h2>
+<p>Каталог будущих плагинов TimurHost</p>
+<div class="grid">
+<div class="plugin">📦 Kit<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+<div class="plugin">🏠 Home<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+<div class="plugin">🔨 Ban<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+<div class="plugin">🔇 Mute<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+<div class="plugin">📍 Spawn<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+<div class="plugin">⚙️ SetHome<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
+</div>
+</div>
+
+<div class="card">
+<h2>👑 Возможности</h2>
+<p>✓ Minecraft Bedrock</p>
+<p>✓ Выбор версии</p>
+<p>✓ Каталог плагинов</p>
+<p>✓ Панель управления</p>
+</div>
+</main>
+<footer>© 2026 TimurHost — Created by Timur</footer>
+</body>
+  </html>
+  
