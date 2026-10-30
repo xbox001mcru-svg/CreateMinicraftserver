@@ -3,73 +3,53 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TimurHost — Minecraft Hosting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimurHost</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101522;color:white;font-family:Arial,sans-serif}
-header{padding:22px;background:#19243a;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;font-weight:bold;color:#60e6a0}
-main{max-width:850px;margin:auto;padding:20px}
-.card{background:#1c2940;padding:20px;border-radius:15px;margin:18px 0}
-h1{font-size:30px}
-p{color:#b9c6d9}
-select,button{width:100%;padding:14px;margin-top:12px;border:0;border-radius:9px;font-size:16px}
-select{background:#101a2b;color:white}
-button{background:#32bd7c;color:white;font-weight:bold;cursor:pointer}
-button:active{opacity:.8}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.plugin{background:#263650;padding:14px;border-radius:10px}
-footer{text-align:center;padding:25px;color:#8996aa}
+body{margin:0;background:#101827;color:white;font-family:Arial,sans-serif;padding:20px}
+h1{color:#62eaff;text-align:center}
+.panel{max-width:450px;margin:25px auto;background:#1d2b40;padding:20px;border-radius:16px}
+input,select,button{width:100%;padding:13px;margin:9px 0;box-sizing:border-box;border:0;border-radius:8px;font-size:16px}
+button{background:#13b981;color:white;font-weight:bold}
+.note{color:#ffd166;font-size:13px}
+.server{background:#263b53;padding:12px;border-radius:10px;margin-top:15px}
 </style>
 </head>
 <body>
-<header>
-<div class="logo">🌐 TimurHost</div>
-<div>Free Hosting</div>
-</header>
-<main>
-<h1>Создай свой Minecraft-сервер!</h1>
-<p>Бесплатный хостинг Minecraft Bedrock</p>
-
-<div class="card">
-<h2>🚀 Создать сервер</h2>
+<h1>⚡ TimurHost</h1>
+<div class="panel">
+<h2>Создать Bedrock-сервер</h2>
+<label>Название сервера</label>
+<input id="serverName" placeholder="Например Timur SMP">
 <label>Версия Minecraft</label>
 <select id="version">
 <option>26.33</option>
 <option>26.40</option>
 <option>26.60</option>
+<option>1.21.130</option>
+<option>1.21.91.25</option>
 </select>
 <label>Тип сервера</label>
 <select id="engine">
 <option>PocketMine-MP</option>
 <option>Bedrock Dedicated Server</option>
 </select>
-<button onclick="alert('Панель создания сервера пока в разработке!')">Создать сервер</button>
+<button onclick="createServer()">Создать сервер</button>
+<p class="note">Демонстрационная панель. Настоящий запуск требует подключения хостинга.</p>
+<div id="result"></div>
 </div>
-
-<div class="card">
-<h2>🧩 Плагины</h2>
-<p>Каталог будущих плагинов TimurHost</p>
-<div class="grid">
-<div class="plugin">📦 Kit<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-<div class="plugin">🏠 Home<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-<div class="plugin">🔨 Ban<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-<div class="plugin">🔇 Mute<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-<div class="plugin">📍 Spawn<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-<div class="plugin">⚙️ SetHome<br><button onclick="alert('Каталог плагинов пока в разработке')">Установить</button></div>
-</div>
-</div>
-
-<div class="card">
-<h2>👑 Возможности</h2>
-<p>✓ Minecraft Bedrock</p>
-<p>✓ Выбор версии</p>
-<p>✓ Каталог плагинов</p>
-<p>✓ Панель управления</p>
-</div>
-</main>
-<footer>© 2026 TimurHost — Created by Timur</footer>
+<script>
+function createServer(){
+let name=document.getElementById('serverName').value.trim();
+let version=document.getElementById('version').value;
+let engine=document.getElementById('engine').value;
+if(!name){alert('Введи название сервера!');return;}
+document.getElementById('result').innerHTML=
+'<div class="server"><h3>'+name+'</h3>'+
+'Версия: '+version+'<br>Движок: '+engine+
+'<p>Статус: Ожидает подключения хостинга</p></div>';
+}
+</script>
 </body>
   </html>
   
