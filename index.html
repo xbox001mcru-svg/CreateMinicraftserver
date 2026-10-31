@@ -3,162 +3,310 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CreateServer Host</title>
+<title>CreateServer Host 2.0</title>
 <style>
-body{margin:0;background:#101827;color:white;font-family:Arial;padding:16px}
-h1{text-align:center;color:#62eaff}
-.box{max-width:500px;margin:20px auto;background:#1d2b40;padding:18px;border-radius:14px}
-input,select,button{width:100%;box-sizing:border-box;padding:13px;margin:7px 0;border:0;border-radius:8px;font-size:16px}
-button{background:#13b981;color:white;font-weight:bold}
-.stop{background:#e74c3c}
-.delete{background:#7952b3}
-.server{background:#263b53;padding:12px;border-radius:10px;margin-top:12px;overflow-wrap:anywhere}
-small{color:#ffd166}
+:root{color-scheme:dark;--bg:#0b1120;--panel:#17243a;--line:#2c405e;--blue:#62eaff;--green:#12c98a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f4f7ff;font-family:Arial,sans-serif}
+header{padding:18px;background:#111c30;border-bottom:1px solid var(--line)}
+header h1{margin:0;color:var(--blue);font-size:24px}
+header p{color:#a9bad4;margin-bottom:0}
+.layout{display:flex;min-height:90vh}
+nav{width:190px;flex-shrink:0;padding:12px;background:#111c30}
+nav button{display:block;width:100%;text-align:left;margin:5px 0}
+main{padding:18px;width:100%;max-width:1100px;margin:auto}
+button,input,select,textarea{font:inherit;border-radius:9px;padding:12px;width:100%;margin:6px 0}
+button{border:0;background:var(--green);color:#062319;font-weight:bold;cursor:pointer}
+button.secondary{background:#304966;color:white}
+button.danger{background:#c94b58;color:white}
+input,select,textarea{background:#0e192b;color:white;border:1px solid var(--line)}
+.card{background:var(--panel);border:1px solid var(--line);padding:16px;border-radius:14px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+h2{color:var(--blue)}
+small,.muted{color:#a9bad4}
+.page{display:none}
+.page.active{display:block}
+.tag{display:inline-block;background:#29465a;padding:5px 9px;border-radius:7px;margin:3px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#07101e;padding:12px;border-radius:8px;min-height:70px}
+footer{padding:20px;text-align:center;color:#93a8c5}
+@media(max-width:600px){.layout{display:block}nav{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}nav button{margin:0;padding:10px;font-size:13px}main{padding:12px}header h1{font-size:21px}}
 </style>
 </head>
 <body>
+<header>
 <h1>⚡ CreateServer Host</h1>
+<p>Java + Bedrock · Панель управления серверами</p>
+</header>
 
-<div class="box">
-<h2>Создать сервер</h2>
+<div class="layout">
+<nav>
+<button onclick="showPage('home')">🏠 Главная</button>
+<button onclick="showPage('create')">➕ Создать сервер</button>
+<button onclick="showPage('plugins')">🧩 Плагины</button>
+<button onclick="showPage('mods')">📦 Моды</button>
+<button onclick="showPage('suggest')">💡 Предложить плагин</button>
+<button onclick="showPage('console')">🖥️ Консоль</button>
+<button onclick="showPage('players')">👑 Игроки и OP</button>
+<button onclick="showPage('settings')">⚙️ Настройки</button>
+</nav>
 
+<main>
+<section id="home" class="page active">
+<h2>Мои серверы</h2>
+<p class="muted">Созданные записи появятся здесь.</p>
+<div id="serverList"></div>
+</section>
+
+<section id="create" class="page">
+<h2>➕ Создать сервер</h2>
+<div class="card">
 <label>Название сервера</label>
-<input id="name" placeholder="Например Timur SMP">
-
-<label>Версия Minecraft</label>
+<input id="serverName" placeholder="Например Timur SMP">
+<label>Издание Minecraft</label>
+<select id="edition">
+<option value="Bedrock">Bedrock — телефоны и Windows</option>
+<option value="Java">Java — компьютеры</option>
+</select>
+<label>Версия</label>
 <select id="version">
-<option>26.33</option>
 <option>26.40</option>
+<option>26.33</option>
 <option>26.60</option>
 <option>1.21.130</option>
 <option>1.21.91.25</option>
+<option>1.21.8</option>
+<option>1.20.1</option>
+<option>1.19.4</option>
+<option>Другая версия — уточнить доступность</option>
 </select>
-
-<label>Тип сервера</label>
-<select id="engine">
-<option>PocketMine-MP</option>
-<option>Bedrock Dedicated Server</option>
+<label>Серверное ПО</label>
+<select id="software">
+<option value="Paper">Paper — Java, плагины</option>
+<option value="Fabric">Fabric — Java, моды</option>
+<option value="Forge">Forge — Java, моды</option>
+<option value="Vanilla">Vanilla — Java, без плагинов</option>
+<option value="PocketMine-MP">PocketMine-MP — Bedrock, плагины</option>
+<option value="Bedrock Dedicated Server">Bedrock Dedicated Server</option>
 </select>
-
-<button onclick="createServer()">＋ Создать сервер</button>
-<p id="message"></p>
+<button onclick="createServer()">Создать сервер</button>
+<p id="createMessage" class="muted"></p>
+<small>Сейчас создаётся запись в панели, а не настоящий игровой процесс.</small>
 </div>
+</section>
 
-<div class="box">
-<h2>Мои серверы</h2>
-<div id="servers">Серверов пока нет.</div>
+<section id="plugins" class="page">
+<h2>🧩 Плагины</h2>
+<div class="card">
+<input id="pluginSearch" placeholder="Поиск плагина..." oninput="filterPlugins()">
+<div id="pluginList"></div>
 </div>
+<p class="muted">Каталог — список примеров. Установка плагинов пока не подключена к настоящим серверам.</p>
+</section>
+
+<section id="mods" class="page">
+<h2>📦 Моды</h2>
+<div class="card">
+<p>Выбирай моды только для своего издания, версии и загрузчика.</p>
+<div class="tag">Java · Fabric</div>
+<div class="tag">Java · Forge</div>
+<div class="tag">Bedrock · Add-ons</div>
+<p>Для установки настоящих модов нужно подключить серверное хранилище и менеджер файлов.</p>
+</div>
+</section>
+
+<section id="suggest" class="page">
+<h2>💡 Предложить плагин</h2>
+<div class="card">
+<label>Название плагина</label>
+<input id="suggestName" placeholder="Как называется плагин?">
+<label>Для чего он нужен?</label>
+<textarea id="suggestDesc" rows="4" placeholder="Опиши функции плагина"></textarea>
+<label>Для кого?</label>
+<select id="suggestPlatform">
+<option>Java — компьютер</option>
+<option>Bedrock — телефон и Windows</option>
+<option>Java и Bedrock</option>
+</select>
+<button onclick="submitSuggestion()">Отправить предложение</button>
+<div id="suggestResult"></div>
+</div>
+<small>Предложения сохраняются в этом браузере, а не отправляются владельцу сайта.</small>
+</section>
+
+<section id="console" class="page">
+<h2>🖥️ Консоль</h2>
+<div class="card">
+<label>Выбери сервер</label>
+<select id="consoleServer" onchange="renderConsole()"></select>
+<pre id="consoleOutput">Консоль пока не подключена к настоящему серверу.</pre>
+<label>Команда</label>
+<input id="consoleCommand" placeholder="Например: help">
+<button onclick="sendCommand()">Отправить команду</button>
+<p class="muted">Демо-режим: команды не выполняются в Minecraft.</p>
+</div>
+</section>
+
+<section id="players" class="page">
+<h2>👑 Игроки и OP</h2>
+<div class="card">
+<label>Сервер</label>
+<select id="opServer"></select>
+<label>Имя игрока</label>
+<input id="playerName" placeholder="Ник игрока">
+<button onclick="opPlayer()">Выдать OP (демо)</button>
+<div id="opResult"></div>
+<p class="muted">Настоящие права появятся только после подключения к реальному серверу.</p>
+</div>
+</section>
+
+<section id="settings" class="page">
+<h2>⚙️ Настройки</h2>
+<div class="card">
+<p>Тема: тёмная</p>
+<p>Устройства: телефоны и компьютеры</p>
+<p>Поддержка: Java и Bedrock</p>
+<button class="danger" onclick="clearLocalData()">Удалить локальные данные панели</button>
+<small>Это удалит сохранённые в этом браузере записи и предложения.</small>
+</div>
+</section>
+</main>
+</div>
+<footer>CreateServer Host · Панель управления</footer>
 
 <script>
-let servers = [];
+let servers=[];
+let suggestions=[];
+try{servers=JSON.parse(localStorage.getItem("csh_servers")||"[]")}catch(e){servers=[]}
+try{suggestions=JSON.parse(localStorage.getItem("csh_suggestions")||"[]")}catch(e){suggestions=[]}
 
-function saveServers(){
-  try {
-    localStorage.setItem("createServerHost", JSON.stringify(servers));
-  } catch(e) {}
+const plugins=[
+{name:"EssentialsX",platform:"Java",description:"Команды и базовые инструменты для Paper"},
+{name:"LuckPerms",platform:"Java",description:"Права и группы игроков"},
+{name:"WorldEdit",platform:"Java",description:"Инструменты редактирования мира"},
+{name:"Geyser",platform:"Java + Bedrock",description:"Подключение Bedrock-клиентов к совместимому Java-серверу"},
+{name:"Floodgate",platform:"Java + Bedrock",description:"Аутентификация Bedrock для совместимой конфигурации Geyser"},
+{name:"PocketMine-MP Plugins",platform:"Bedrock",description:"Плагины только для совместимых версий PocketMine-MP"}
+];
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ if(id==="home")renderServers();
+ if(id==="plugins")filterPlugins();
+ if(id==="console")renderConsole();
+ if(id==="players")renderOpServers();
 }
 
-function loadServers(){
-  try {
-    servers = JSON.parse(localStorage.getItem("createServerHost") || "[]");
-  } catch(e) {
-    servers = [];
-  }
-  renderServers();
+function persist(){
+ try{localStorage.setItem("csh_servers",JSON.stringify(servers))}catch(e){}
 }
 
 function createServer(){
-  const name = document.getElementById("name").value.trim();
-  const version = document.getElementById("version").value;
-  const engine = document.getElementById("engine").value;
-  const message = document.getElementById("message");
-
-  if(!name){
-    message.textContent = "Сначала введи название сервера!";
-    return;
-  }
-
-  servers.push({
-    id: Date.now(),
-    name: name,
-    version: version,
-    engine: engine,
-    status: "Остановлен"
-  });
-
-  saveServers();
-  renderServers();
-  document.getElementById("name").value = "";
-  message.textContent = "Сервер добавлен в панель!";
-}
-
-function startServer(id){
-  const server = servers.find(s => s.id === id);
-  if(!server) return;
-  server.status = "Запущен (демо)";
-  saveServers();
-  renderServers();
-}
-
-function stopServer(id){
-  const server = servers.find(s => s.id === id);
-  if(!server) return;
-  server.status = "Остановлен";
-  saveServers();
-  renderServers();
-}
-
-function deleteServer(id){
-  if(!confirm("Удалить сервер из панели?")) return;
-  servers = servers.filter(s => s.id !== id);
-  saveServers();
-  renderServers();
+ const name=document.getElementById("serverName").value.trim();
+ if(!name){document.getElementById("createMessage").textContent="Введи название сервера.";return}
+ const s={
+ id:Date.now(),
+ name:name,
+ edition:document.getElementById("edition").value,
+ version:document.getElementById("version").value,
+ software:document.getElementById("software").value,
+ status:"Не запущен — хостинг не подключён",
+ address:"Появится после подключения настоящего хостинга"
+ };
+ servers.push(s);
+ persist();
+ document.getElementById("serverName").value="";
+ document.getElementById("createMessage").textContent="Запись создана! Открой «Главная», чтобы увидеть сервер.";
+ renderServers();
 }
 
 function renderServers(){
-  const box = document.getElementById("servers");
-
-  if(servers.length === 0){
-    box.textContent = "Серверов пока нет.";
-    return;
-  }
-
-  box.replaceChildren();
-
-  servers.forEach(s => {
-    const card = document.createElement("div");
-    card.className = "server";
-
-    const title = document.createElement("h3");
-    title.textContent = s.name;
-
-    const info = document.createElement("p");
-    info.textContent = "Версия: " + s.version +
-      " | Движок: " + s.engine;
-
-    const status = document.createElement("p");
-    status.textContent = "Статус: " + s.status;
-
-    const start = document.createElement("button");
-    start.textContent = "▶ Запустить";
-    start.onclick = () => startServer(s.id);
-
-    const stop = document.createElement("button");
-    stop.className = "stop";
-    stop.textContent = "■ Остановить";
-    stop.onclick = () => stopServer(s.id);
-
-    const del = document.createElement("button");
-    del.className = "delete";
-    del.textContent = "✖ Удалить";
-    del.onclick = () => deleteServer(s.id);
-
-    card.append(title, info, status, start, stop, del);
-    box.appendChild(card);
-  });
+ const list=document.getElementById("serverList");
+ list.replaceChildren();
+ if(!servers.length){list.textContent="Пока нет серверов. Открой «Создать сервер».";return}
+ servers.forEach(s=>{
+  const c=document.createElement("div");c.className="card";
+  const h=document.createElement("h3");h.textContent=s.name;
+  const p=document.createElement("p");p.textContent=s.edition+" · "+s.version+" · "+s.software;
+  const st=document.createElement("p");st.textContent="Статус: "+s.status;
+  const ad=document.createElement("p");ad.textContent="Адрес: "+s.address;
+  const open=document.createElement("button");open.textContent="Открыть управление";
+  open.onclick=()=>{showPage("console");document.getElementById("consoleServer").value=String(s.id);renderConsole()};
+  const del=document.createElement("button");del.textContent="Удалить запись";del.className="danger";
+  del.onclick=()=>{if(confirm("Удалить эту запись?")){servers=servers.filter(x=>x.id!==s.id);persist();renderServers()}};
+  c.append(h,p,st,ad,open,del);list.append(c);
+ });
+ updateSelects();
 }
 
-loadServers();
+function updateSelects(){
+ ["consoleServer","opServer"].forEach(id=>{
+  const el=document.getElementById(id);if(!el)return;
+  const old=el.value;el.replaceChildren();
+  servers.forEach(s=>{const o=document.createElement("option");o.value=String(s.id);o.textContent=s.name;el.append(o)});
+  if(servers.some(s=>String(s.id)===old))el.value=old;
+ });
+}
+
+function renderConsole(){
+ updateSelects();
+ const out=document.getElementById("consoleOutput");
+ if(!servers.length){out.textContent="Сначала создай сервер.";return}
+ out.textContent="Демо-консоль. Настоящий сервер не подключён.\nВыбран сервер: "+(servers.find(s=>String(s.id)===document.getElementById("consoleServer").value)?.name||servers[0].name);
+}
+
+function sendCommand(){
+ const cmd=document.getElementById("consoleCommand").value.trim();
+ const out=document.getElementById("consoleOutput");
+ if(!cmd){out.textContent+="\nВведи команду.";return}
+ out.textContent+="\n> "+cmd+"\nКоманда не выполнена: подключи настоящий серверный backend.";
+ document.getElementById("consoleCommand").value="";
+}
+
+function renderOpServers(){updateSelects()}
+
+function opPlayer(){
+ const nick=document.getElementById("playerName").value.trim();
+ const s=servers.find(x=>String(x.id)===document.getElementById("opServer").value);
+ document.getElementById("opResult").textContent=
+  !s?"Сначала создай сервер.":!nick?"Введи ник игрока.":"Демо: запрос OP для "+nick+" на "+s.name+". Реальные права не выданы.";
+}
+
+function filterPlugins(){
+ const q=(document.getElementById("pluginSearch")?.value||"").toLowerCase();
+ const list=document.getElementById("pluginList");if(!list)return;
+ list.replaceChildren();
+ plugins.filter(p=>(p.name+" "+p.platform+" "+p.description).toLowerCase().includes(q)).forEach(p=>{
+  const c=document.createElement("div");c.className="card";
+  const h=document.createElement("b");h.textContent=p.name;
+  const d=document.createElement("p");d.textContent=p.description;
+  const tag=document.createElement("span");tag.className="tag";tag.textContent=p.platform;
+  const b=document.createElement("button");b.className="secondary";b.textContent="Подробнее";
+  b.onclick=()=>alert(p.name+"\n"+p.description+"\nАвтоматическая установка пока не подключена.");
+  c.append(h,tag,d,b);list.append(c);
+ });
+}
+
+function submitSuggestion(){
+ const name=document.getElementById("suggestName").value.trim();
+ const desc=document.getElementById("suggestDesc").value.trim();
+ const platform=document.getElementById("suggestPlatform").value;
+ if(!name||!desc){document.getElementById("suggestResult").textContent="Заполни название и описание.";return}
+ suggestions.push({name,desc,platform});
+ try{localStorage.setItem("csh_suggestions",JSON.stringify(suggestions))}catch(e){}
+ document.getElementById("suggestResult").textContent="Предложение сохранено в этом браузере.";
+ document.getElementById("suggestName").value="";
+ document.getElementById("suggestDesc").value="";
+}
+
+function clearLocalData(){
+ if(!confirm("Точно удалить все локальные серверы и предложения?"))return;
+ servers=[];suggestions=[];persist();
+ try{localStorage.removeItem("csh_suggestions")}catch(e){}
+ renderServers();updateSelects();
+ alert("Локальные данные очищены.");
+}
+renderServers();
 </script>
 </body>
-</html>
+  </html>
